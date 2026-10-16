@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hệ Thống Tư Vấn Chẩn Đoán Sự Cố Máy Tính - Naive Bayes</title>
-  <meta name="description" content="Hệ thống tư vấn chẩn đoán sự cố máy tính dựa trên triệu chứng sử dụng bộ phân lớp Naive Bayes trên dữ liệu thật Open Repair Alliance và Hugging Face">
+  <meta name="description"
+    content="Hệ thống tư vấn chẩn đoán sự cố máy tính dựa trên triệu chứng sử dụng bộ phân lớp Naive Bayes trên dữ liệu thật Open Repair Alliance và Hugging Face">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <!-- Chart.js for data visualization -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
   <!-- Background Glow FX -->
   <div class="ambient-glow glow-1"></div>
@@ -25,7 +30,8 @@
       <div class="brand">
         <div class="brand-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
         <div>
@@ -66,32 +72,46 @@
     <section id="tab-diagnose" class="tab-pane active">
       <div class="hero-card glassmorphism">
         <div class="hero-badge">
-          <span class="badge-dot"></span> Mô hình huấn luyện trên 17,671 mẫu thực tế từ Open Repair Alliance &amp; Hugging Face
+          <span class="badge-dot"></span> Mô hình huấn luyện trên 17,671 mẫu thực tế từ Open Repair Alliance &amp;
+          Hugging Face
         </div>
         <h2 class="hero-title">Tư Vấn &amp; Dự Đoán Nguyên Nhân Sự Cố Máy Tính</h2>
         <p class="hero-desc">
-          Nhập mô tả triệu chứng hoặc chọn các dấu hiệu hư hỏng bên dưới. Thuật toán Naive Bayes với kỹ thuật làm trơn Laplace (α=1) sẽ tính xác suất hậu nghiệm $P(\text{Sự cố} \mid \text{Triệu chứng})$ và đưa ra Top-3 nguyên nhân cùng các bước khắc phục an toàn.
+          Nhập mô tả triệu chứng hoặc chọn các dấu hiệu hư hỏng bên dưới. Thuật toán Naive Bayes với kỹ thuật làm trơn
+          Laplace (α=1) sẽ tính xác suất hậu nghiệm P(lớp | triệu chứng) ∝ P(lớp) · ∏ P(triệu chứng | lớp)
+          và đưa ra Top-3 nguyên nhân cùng các bước khắc phục an toàn.
         </p>
 
         <!-- Quick Scenarios (From Slide 11) -->
         <div class="quick-scenarios-bar">
           <span class="scenario-label">Ví dụ nhanh:</span>
-          <button class="scenario-btn" data-symptom="Bật máy không lên hình, nghe tiếng bíp. Máy vẫn sáng đèn nguồn." data-tags="beep_sound,black_screen">
+          <button class="scenario-btn" data-symptom="Bật máy không lên hình, nghe tiếng bíp. Máy vẫn sáng đèn nguồn."
+            data-tags="beep_sound,black_screen">
             🔊 Bật không lên hình + Tiếng bíp (Slide 11)
           </button>
-          <button class="scenario-btn" data-symptom="Máy rất nóng, quạt kêu to rú liên tục, chơi game 10 phút là tự sập nguồn." data-tags="overheating,loud_fan">
+          <button class="scenario-btn"
+            data-symptom="Máy rất nóng, quạt kêu to rú liên tục, chơi game 10 phút là tự sập nguồn."
+            data-tags="overheating,loud_fan">
             🔥 Quá nhiệt &amp; Quạt rú to
           </button>
-          <button class="scenario-btn" data-symptom="Màn hình xanh BSOD liên tục báo lỗi MEMORY_MANAGEMENT khi mở nhiều ứng dụng." data-tags="bsod_ram">
+          <button class="scenario-btn"
+            data-symptom="Màn hình xanh BSOD liên tục báo lỗi MEMORY_MANAGEMENT khi mở nhiều ứng dụng."
+            data-tags="bsod_ram">
             💀 Màn hình xanh BSOD (RAM/OS)
           </button>
-          <button class="scenario-btn" data-symptom="Khởi động máy cực chậm, ổ cứng báo 100% disk và thỉnh thoảng kêu rè rè lách cách." data-tags="slow_disk,hdd_clicking">
+          <button class="scenario-btn"
+            data-symptom="Khởi động máy cực chậm, ổ cứng báo 100% disk và thỉnh thoảng kêu rè rè lách cách."
+            data-tags="slow_disk,hdd_clicking">
             💾 Ổ cứng 100% Disk &amp; kêu rè rè
           </button>
-          <button class="scenario-btn" data-symptom="Mất kết nối Wi-Fi, biểu tượng mạng có chấm than vàng, báo Connected no internet." data-tags="no_wifi,yellow_warning">
+          <button class="scenario-btn"
+            data-symptom="Mất kết nối Wi-Fi, biểu tượng mạng có chấm than vàng, báo Connected no internet."
+            data-tags="no_wifi,yellow_warning">
             🌐 Mạng Wi-Fi chấm than vàng
           </button>
-          <button class="scenario-btn" data-symptom="Cắm sạc không sáng đèn, bấm nút nguồn máy hoàn toàn im lìm không có tín hiệu điện." data-tags="no_power,charger_loose">
+          <button class="scenario-btn"
+            data-symptom="Cắm sạc không sáng đèn, bấm nút nguồn máy hoàn toàn im lìm không có tín hiệu điện."
+            data-tags="no_power,charger_loose">
             ⚡ Máy mất nguồn hoàn toàn
           </button>
         </div>
@@ -112,12 +132,8 @@
               <label for="symptom-input" class="form-label">
                 Mô tả chi tiết sự cố (Tiếng Việt hoặc Tiếng Anh):
               </label>
-              <textarea 
-                id="symptom-input" 
-                class="form-textarea" 
-                rows="4" 
-                placeholder="Ví dụ: Bật máy không lên màn hình, nghe tiếng bíp dài liên tục, quạt vẫn quay..."
-              ></textarea>
+              <textarea id="symptom-input" class="form-textarea" rows="4"
+                placeholder="Ví dụ: Bật máy không lên màn hình, nghe tiếng bíp dài liên tục, quạt vẫn quay..."></textarea>
             </div>
 
             <div class="form-group">
@@ -143,7 +159,8 @@
           <div class="glass-card result-placeholder" id="result-placeholder">
             <div class="empty-icon">🤖</div>
             <h4>Chưa có dữ liệu chẩn đoán</h4>
-            <p>Vui lòng nhập triệu chứng hoặc chọn các dấu hiệu ở cột bên trái và bấm <strong>"Phân Tích &amp; Chẩn Đoán"</strong>.</p>
+            <p>Vui lòng nhập triệu chứng hoặc chọn các dấu hiệu ở cột bên trái và bấm <strong>"Phân Tích &amp; Chẩn
+                Đoán"</strong>.</p>
             <div class="model-meta-pill">
               <span class="pulse-indicator"></span> Sẵn sàng phân tích với Multinomial Naive Bayes (α=1.0)
             </div>
@@ -191,7 +208,9 @@
         </div>
         <h2 class="hero-title">Đánh Giá Hiệu Năng Mô Hình (Thực Nghiệm Chuẩn)</h2>
         <p class="hero-desc">
-          Số liệu kiểm thử thực tế từ bộ phân tầng 80% Train / 20% Test trên 17,671 mẫu dữ liệu thực tế từ Open Repair Alliance và Hugging Face IT Troubleshooting. Thay thế hoàn toàn số liệu minh họa lý thuyết trong các Slide 8, 9, 10.
+          Số liệu kiểm thử thực tế từ bộ phân tầng 80% Train / 20% Test trên 17,671 mẫu dữ liệu thực tế từ Open Repair
+          Alliance và Hugging Face IT Troubleshooting. Thay thế hoàn toàn số liệu minh họa lý thuyết trong các Slide 8,
+          9, 10.
         </p>
 
         <!-- KPI Grid -->
@@ -229,7 +248,8 @@
         <div class="section-title-bar">
           <div>
             <h3 class="section-title">Kết Quả 1 • Precision / Recall / F1-Score Theo 7 Nhóm Sự Cố</h3>
-            <p class="section-subtitle">Tái hiện Slide 9 với dữ liệu kiểm thử thực nghiệm trên 7 nhóm linh kiện máy tính</p>
+            <p class="section-subtitle">Tái hiện Slide 9 với dữ liệu kiểm thử thực nghiệm trên 7 nhóm linh kiện máy tính
+            </p>
           </div>
           <span class="tag-pill">Slide 9 Thực Nghiệm</span>
         </div>
@@ -266,8 +286,10 @@
                 <canvas id="chart-accuracy-donut"></canvas>
               </div>
               <div class="donut-legend">
-                <div class="legend-item"><span class="dot green"></span> Dự đoán đúng Top-1: <strong id="donut-acc-val">92.47%</strong></div>
-                <div class="legend-item"><span class="dot blue"></span> Đúng trong Top-3: <strong id="donut-top3-val">98.48%</strong></div>
+                <div class="legend-item"><span class="dot green"></span> Dự đoán đúng Top-1: <strong
+                    id="donut-acc-val">92.47%</strong></div>
+                <div class="legend-item"><span class="dot blue"></span> Đúng trong Top-3: <strong
+                    id="donut-top3-val">98.48%</strong></div>
                 <div class="legend-item"><span class="dot red"></span> Chưa chính xác: <strong>7.53%</strong></div>
               </div>
             </div>
@@ -280,7 +302,8 @@
         <div class="section-title-bar">
           <div>
             <h3 class="section-title">Kết Quả 2 • So Sánh Mô Hình &amp; Ma Trận Nhầm Lẫn (Confusion Matrix)</h3>
-            <p class="section-subtitle">Tái hiện Slide 10: So sánh Naive Bayes với Decision Tree, KNN, Logistic Regression &amp; Đường cong học tập</p>
+            <p class="section-subtitle">Tái hiện Slide 10: So sánh Naive Bayes với Decision Tree, KNN, Logistic
+              Regression &amp; Đường cong học tập</p>
           </div>
           <span class="tag-pill">Slide 10 Thực Nghiệm</span>
         </div>
@@ -324,11 +347,14 @@
     <section id="tab-dataset" class="tab-pane">
       <div class="hero-card glassmorphism">
         <div class="hero-badge">
-          <span class="badge-dot"></span> Nguồn Dữ Liệu Mở: Open Repair Alliance (ORDS) &amp; Hugging Face IT Troubleshooting
+          <span class="badge-dot"></span> Nguồn Dữ Liệu Mở: Open Repair Alliance (ORDS) &amp; Hugging Face IT
+          Troubleshooting
         </div>
         <h2 class="hero-title">Khám Phá Cơ Sở Dữ Liệu Thật (17,671 Hồ Sơ Sự Cố)</h2>
         <p class="hero-desc">
-          Minh bạch 100% dữ liệu: Không sử dụng dữ liệu tự sinh giả định. Mỗi bản ghi được tổng hợp từ các sự kiện sửa chữa cộng đồng quốc tế (The Restart Project, Repair Café International) và bộ dữ liệu hỗ trợ kỹ thuật CNTT chuẩn trên Hugging Face.
+          Minh bạch 100% dữ liệu: Không sử dụng dữ liệu tự sinh giả định. Mỗi bản ghi được tổng hợp từ các sự kiện sửa
+          chữa cộng đồng quốc tế (The Restart Project, Repair Café International) và bộ dữ liệu hỗ trợ kỹ thuật CNTT
+          chuẩn trên Hugging Face.
         </p>
 
         <!-- Filter bar -->
@@ -408,7 +434,8 @@
         </div>
         <h2 class="hero-title">Cơ Sở Naive Bayes &amp; Kiến Trúc Hệ Thống</h2>
         <p class="hero-desc">
-          Giải thích chi tiết công thức toán học, nguyên lý phân lớp xác suất Bayes, kỹ thuật làm trơn Laplace và lý do Naive Bayes đặc biệt phù hợp trong chẩn đoán sơ bộ sự cố máy tính.
+          Giải thích chi tiết công thức toán học, nguyên lý phân lớp xác suất Bayes, kỹ thuật làm trơn Laplace và lý do
+          Naive Bayes đặc biệt phù hợp trong chẩn đoán sơ bộ sự cố máy tính.
         </p>
       </div>
 
@@ -426,11 +453,15 @@
               Trong đó:
             </p>
             <ul class="bullet-list">
-              <li><strong>$C_k$</strong>: Lớp sự cố thứ $k$ trong 7 nhóm (Nguồn, Màn hình, Quá nhiệt, Ổ cứng, RAM, Mạng, Phần mềm).</li>
-              <li><strong>$X = (x_1, x_2, \dots, x_n)$</strong>: Vector triệu chứng đã được trích xuất bằng TF-IDF và từ khóa đặc trưng.</li>
+              <li><strong>$C_k$</strong>: Lớp sự cố thứ $k$ trong 7 nhóm (Nguồn, Màn hình, Quá nhiệt, Ổ cứng, RAM, Mạng,
+                Phần mềm).</li>
+              <li><strong>$X = (x_1, x_2, \dots, x_n)$</strong>: Vector triệu chứng đã được trích xuất bằng TF-IDF và từ
+                khóa đặc trưng.</li>
               <li><strong>$P(C_k)$</strong>: Xác suất tiên nghiệm (Prior probability) của nhóm sự cố $C_k$.</li>
-              <li><strong>$P(x_i \mid C_k)$</strong>: Xác suất có điều kiện (Likelihood) - khả năng triệu chứng $x_i$ xuất hiện khi máy gặp lỗi $C_k$.</li>
-              <li><strong>Giả định độc lập có điều kiện:</strong> Các triệu chứng $x_i$ và $x_j$ độc lập với nhau khi đã biết trước lớp sự cố $C_k$.</li>
+              <li><strong>$P(x_i \mid C_k)$</strong>: Xác suất có điều kiện (Likelihood) - khả năng triệu chứng $x_i$
+                xuất hiện khi máy gặp lỗi $C_k$.</li>
+              <li><strong>Giả định độc lập có điều kiện:</strong> Các triệu chứng $x_i$ và $x_j$ độc lập với nhau khi đã
+                biết trước lớp sự cố $C_k$.</li>
             </ul>
           </div>
 
@@ -440,7 +471,9 @@
               P(x_i \mid C_k) = \frac{N_{ki} + \alpha}{N_k + \alpha \cdot |V|}
             </div>
             <p class="math-explain">
-              Khi người dùng nhập một triệu chứng mới chưa từng xuất hiện trong tập huấn luyện của lớp $C_k$ ($N_{ki} = 0$), không có Laplace smoothing thì tích xác suất sẽ bằng 0 tuyệt đối. Hệ số $\alpha = 1$ giúp triệt tiêu vấn đề xác suất 0 này một cách hoàn hảo.
+              Khi người dùng nhập một triệu chứng mới chưa từng xuất hiện trong tập huấn luyện của lớp $C_k$ ($N_{ki} =
+              0$), không có Laplace smoothing thì tích xác suất sẽ bằng 0 tuyệt đối. Hệ số $\alpha = 1$ giúp triệt tiêu
+              vấn đề xác suất 0 này một cách hoàn hảo.
             </p>
           </div>
         </div>
@@ -455,7 +488,8 @@
               <div class="step-num">01</div>
               <div class="step-content">
                 <h5>Nhập Triệu Chứng</h5>
-                <p>Người dùng mô tả sự cố bằng ngôn ngữ tự nhiên (tiếng Việt/Anh) hoặc tick chọn các triệu chứng trực quan.</p>
+                <p>Người dùng mô tả sự cố bằng ngôn ngữ tự nhiên (tiếng Việt/Anh) hoặc tick chọn các triệu chứng trực
+                  quan.</p>
               </div>
             </div>
             <div class="flow-step">
@@ -476,14 +510,16 @@
               <div class="step-num">04</div>
               <div class="step-content">
                 <h5>Xếp Hạng Top-3 Nguyên Nhân</h5>
-                <p>Chọn 3 nhóm có xác suất cao nhất, ánh xạ tới các nguyên nhân cụ thể (Sub-causes) và tỷ lệ % tin cậy.</p>
+                <p>Chọn 3 nhóm có xác suất cao nhất, ánh xạ tới các nguyên nhân cụ thể (Sub-causes) và tỷ lệ % tin cậy.
+                </p>
               </div>
             </div>
             <div class="flow-step">
               <div class="step-num">05</div>
               <div class="step-content">
                 <h5>Gợi Ý Khắc Phục &amp; An Toàn</h5>
-                <p>Đưa ra quy trình kiểm tra các bước an toàn điện, phòng tránh tĩnh điện và hướng dẫn người dùng tự kiểm tra sơ bộ trước khi mang sửa chữa.</p>
+                <p>Đưa ra quy trình kiểm tra các bước an toàn điện, phòng tránh tĩnh điện và hướng dẫn người dùng tự
+                  kiểm tra sơ bộ trước khi mang sửa chữa.</p>
               </div>
             </div>
           </div>
@@ -492,22 +528,26 @@
 
       <!-- Advantages card -->
       <div class="glass-card mt-4">
-        <h3 class="card-title"><span class="card-icon">💡</span> Lý Do Chọn Naive Bayes Cho Bài Toán Này (Slide 3 &amp; 14)</h3>
+        <h3 class="card-title"><span class="card-icon">💡</span> Lý Do Chọn Naive Bayes Cho Bài Toán Này (Slide 3 &amp;
+          14)</h3>
         <div class="grid-3-cols mt-3">
           <div class="feature-item">
             <div class="feature-icon">⚡</div>
             <h5>Tốc Độ Siêu Nhanh (Sub-millisecond)</h5>
-            <p>Thời gian suy luận chỉ 0.001 ms, cho phép phản hồi tức thì ngay khi người dùng đang gõ triệu chứng hoặc click chọn checkbox.</p>
+            <p>Thời gian suy luận chỉ 0.001 ms, cho phép phản hồi tức thì ngay khi người dùng đang gõ triệu chứng hoặc
+              click chọn checkbox.</p>
           </div>
           <div class="feature-item">
             <div class="feature-icon">📊</div>
             <h5>Xác Suất Rõ Ràng, Dễ Giải Thích</h5>
-            <p>Khác với các mô hình "hộp đen", Naive Bayes trả về phân phối xác suất cụ thể cho từng lớp, giúp kỹ thuật viên và người dùng dễ dàng hiểu lý do chẩn đoán.</p>
+            <p>Khác với các mô hình "hộp đen", Naive Bayes trả về phân phối xác suất cụ thể cho từng lớp, giúp kỹ thuật
+              viên và người dùng dễ dàng hiểu lý do chẩn đoán.</p>
           </div>
           <div class="feature-item">
             <div class="feature-icon">🧩</div>
             <h5>Hiệu Quả Với Triệu Chứng Chồng Lấp</h5>
-            <p>Nhiều linh kiện có biểu hiện tương tự nhau (như không lên hình do RAM lỏng hoặc hỏng card màn hình). Top-3 xác suất phản ánh chính xác tính chất bất định này.</p>
+            <p>Nhiều linh kiện có biểu hiện tương tự nhau (như không lên hình do RAM lỏng hoặc hỏng card màn hình).
+              Top-3 xác suất phản ánh chính xác tính chất bất định này.</p>
           </div>
         </div>
       </div>
@@ -530,4 +570,5 @@
 
   <script src="/static/app.js"></script>
 </body>
+
 </html>
