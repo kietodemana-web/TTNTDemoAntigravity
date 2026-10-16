@@ -2,6 +2,14 @@
 <html lang="vi">
 
 <head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$',  right: '$',  display: false}
+    ]
+  });"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hệ Thống Tư Vấn Chẩn Đoán Sự Cố Máy Tính - Naive Bayes</title>
@@ -78,8 +86,7 @@
         <h2 class="hero-title">Tư Vấn &amp; Dự Đoán Nguyên Nhân Sự Cố Máy Tính</h2>
         <p class="hero-desc">
           Nhập mô tả triệu chứng hoặc chọn các dấu hiệu hư hỏng bên dưới. Thuật toán Naive Bayes với kỹ thuật làm trơn
-          Laplace (α=1) sẽ tính xác suất hậu nghiệm P(lớp | triệu chứng) ∝ P(lớp) · ∏ P(triệu chứng | lớp)
-          và đưa ra Top-3 nguyên nhân cùng các bước khắc phục an toàn.
+          Laplace (α=1) sẽ tính xác suất hậu nghiệm và đưa ra Top-3 nguyên nhân cùng các bước khắc phục an toàn.
         </p>
 
         <!-- Quick Scenarios (From Slide 11) -->
@@ -87,7 +94,7 @@
           <span class="scenario-label">Ví dụ nhanh:</span>
           <button class="scenario-btn" data-symptom="Bật máy không lên hình, nghe tiếng bíp. Máy vẫn sáng đèn nguồn."
             data-tags="beep_sound,black_screen">
-            🔊 Bật không lên hình + Tiếng bíp (Slide 11)
+            🔊 Bật không lên hình + Tiếng bíp
           </button>
           <button class="scenario-btn"
             data-symptom="Máy rất nóng, quạt kêu to rú liên tục, chơi game 10 phút là tự sập nguồn."
@@ -209,8 +216,7 @@
         <h2 class="hero-title">Đánh Giá Hiệu Năng Mô Hình (Thực Nghiệm Chuẩn)</h2>
         <p class="hero-desc">
           Số liệu kiểm thử thực tế từ bộ phân tầng 80% Train / 20% Test trên 17,671 mẫu dữ liệu thực tế từ Open Repair
-          Alliance và Hugging Face IT Troubleshooting. Thay thế hoàn toàn số liệu minh họa lý thuyết trong các Slide 8,
-          9, 10.
+          Alliance và Hugging Face IT Troubleshooting.
         </p>
 
         <!-- KPI Grid -->
@@ -248,10 +254,7 @@
         <div class="section-title-bar">
           <div>
             <h3 class="section-title">Kết Quả 1 • Precision / Recall / F1-Score Theo 7 Nhóm Sự Cố</h3>
-            <p class="section-subtitle">Tái hiện Slide 9 với dữ liệu kiểm thử thực nghiệm trên 7 nhóm linh kiện máy tính
-            </p>
           </div>
-          <span class="tag-pill">Slide 9 Thực Nghiệm</span>
         </div>
 
         <div class="grid-2-cols">
@@ -302,10 +305,9 @@
         <div class="section-title-bar">
           <div>
             <h3 class="section-title">Kết Quả 2 • So Sánh Mô Hình &amp; Ma Trận Nhầm Lẫn (Confusion Matrix)</h3>
-            <p class="section-subtitle">Tái hiện Slide 10: So sánh Naive Bayes với Decision Tree, KNN, Logistic
+            <p class="section-subtitle"> So sánh Naive Bayes với Decision Tree, KNN, Logistic
               Regression &amp; Đường cong học tập</p>
           </div>
-          <span class="tag-pill">Slide 10 Thực Nghiệm</span>
         </div>
 
         <div class="grid-2-cols">
@@ -430,7 +432,7 @@
     <section id="tab-theory" class="tab-pane">
       <div class="hero-card glassmorphism">
         <div class="hero-badge">
-          <span class="badge-dot"></span> Cơ Sở Khoa Học • Slides 5, 6, 7 &amp; 14
+          <span class="badge-dot"></span> Cơ Sở Khoa Học
         </div>
         <h2 class="hero-title">Cơ Sở Naive Bayes &amp; Kiến Trúc Hệ Thống</h2>
         <p class="hero-desc">
@@ -447,7 +449,7 @@
           </div>
           <div class="math-box">
             <div class="math-eq">
-              P(C_k \mid X) = \frac{P(C_k) \cdot \prod_{i=1}^{n} P(x_i \mid C_k)}{P(X)}
+              $$P(C_k \mid X) = \frac{P(C_k) \cdot \prod_{i=1}^{n} P(x_i \mid C_k)}{P(X)}$$
             </div>
             <p class="math-explain">
               Trong đó:
@@ -468,7 +470,7 @@
           <div class="math-box mt-3">
             <h4 class="math-subhead">Làm Trơn Laplace (Laplace Smoothing với α = 1):</h4>
             <div class="math-eq">
-              P(x_i \mid C_k) = \frac{N_{ki} + \alpha}{N_k + \alpha \cdot |V|}
+              $$P(x_i \mid C_k) = \frac{N_{ki} + \alpha}{N_k + \alpha \cdot |V|}$$
             </div>
             <p class="math-explain">
               Khi người dùng nhập một triệu chứng mới chưa từng xuất hiện trong tập huấn luyện của lớp $C_k$ ($N_{ki} =
@@ -481,7 +483,7 @@
         <!-- 5-step pipeline architecture -->
         <div class="glass-card">
           <div class="card-header">
-            <h3 class="card-title"><span class="card-icon">🔄</span> 2. Quy Trình 5 Bước Kiến Trúc (Slide 6)</h3>
+            <h3 class="card-title"><span class="card-icon">🔄</span> 2. Quy Trình 5 Bước Kiến Trúc</h3>
           </div>
           <div class="pipeline-flow">
             <div class="flow-step">
@@ -528,8 +530,7 @@
 
       <!-- Advantages card -->
       <div class="glass-card mt-4">
-        <h3 class="card-title"><span class="card-icon">💡</span> Lý Do Chọn Naive Bayes Cho Bài Toán Này (Slide 3 &amp;
-          14)</h3>
+        <h3 class="card-title"><span class="card-icon">💡</span> Lý Do Chọn Naive Bayes Cho Bài Toán Này</h3>
         <div class="grid-3-cols mt-3">
           <div class="feature-item">
             <div class="feature-icon">⚡</div>
