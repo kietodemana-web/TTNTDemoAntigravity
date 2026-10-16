@@ -23,7 +23,12 @@ from knowledge_base import DIAGNOSTIC_KNOWLEDGE
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_DIR = os.path.join(BASE_DIR, "models")
+if not os.path.isdir(MODEL_DIR) and os.path.isdir(os.path.join(BASE_DIR, "TTNTDemoAntigravity", "models")):
+    MODEL_DIR = os.path.join(BASE_DIR, "TTNTDemoAntigravity", "models")
+
 DATA_FILE = os.path.join(BASE_DIR, "data", "processed_computer_troubleshooting.csv")
+if not os.path.exists(DATA_FILE) and os.path.exists(os.path.join(BASE_DIR, "TTNTDemoAntigravity", "data", "processed_computer_troubleshooting.csv")):
+    DATA_FILE = os.path.join(BASE_DIR, "TTNTDemoAntigravity", "data", "processed_computer_troubleshooting.csv")
 
 app = FastAPI(
     title="Hệ thống Chẩn đoán Sự cố Máy tính - Naive Bayes",
@@ -207,14 +212,31 @@ def get_dataset_samples(
         "samples": records
     }
 
-# Mount static files
+# Dynamic path resolver for static files
+potential_static_dirs = [
+    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "TTNTDemoAntigravity", "static"),
+    os.path.join(os.path.dirname(BASE_DIR), "static")
+]
 STATIC_DIR = os.path.join(BASE_DIR, "static")
+for d in potential_static_dirs:
+    if os.path.isdir(d) and os.path.exists(os.path.join(d, "index.html")):
+        STATIC_DIR = d
+        break
+
 os.makedirs(STATIC_DIR, exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 @app.get("/")
 def serve_index():
-    return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+    index_file = os.path.join(STATIC_DIR, "index.html")
+    if not os.path.exists(index_file):
+        for d in potential_static_dirs:
+            candidate = os.path.join(d, "index.html")
+            if os.path.exists(candidate):
+                index_file = candidate
+                break
+    return FileResponse(index_file)
 
 if __name__ == '__main__':
     import uvicorn

@@ -52,9 +52,31 @@ def main():
                 break
             time.sleep(0.5)
 
-    print("\n[+] Đang tự động mở giao diện người dùng trên trình duyệt...")
-    time.sleep(1.0)
-    webbrowser.open(url)
+    print("\n[+] Đang tự động mở giao diện ứng dụng...")
+    time.sleep(0.5)
+    
+    # Try opening as a standalone App Window (Edge / Chrome) for desktop app look and feel
+    edge_paths = [
+        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Microsoft\Edge\Application\msedge.exe"
+    ]
+    chrome_paths = [
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+    ]
+    
+    opened = False
+    for path in edge_paths + chrome_paths:
+        if os.path.exists(path):
+            try:
+                subprocess.Popen([path, f"--app={url}"])
+                opened = True
+                break
+            except Exception:
+                pass
+                
+    if not opened:
+        webbrowser.open(url)
     
     print("\n" + "=" * 65)
     print(f"  Giao diện đã mở tại: {url}")
