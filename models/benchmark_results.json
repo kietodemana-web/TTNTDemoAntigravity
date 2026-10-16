@@ -1,0 +1,644 @@
+{
+  "dataset_info": {
+    "total_samples": 17671,
+    "train_samples": 14136,
+    "test_samples": 3535,
+    "categories": [
+      "Nguồn",
+      "Màn hình",
+      "Quá nhiệt",
+      "Ổ cứng",
+      "RAM",
+      "Mạng",
+      "Phần mềm"
+    ],
+    "category_distribution": {
+      "Phần mềm": 7624,
+      "Màn hình": 3521,
+      "Nguồn": 2070,
+      "Ổ cứng": 1939,
+      "Mạng": 1788,
+      "RAM": 386,
+      "Quá nhiệt": 343
+    },
+    "sources": {
+      "Hugging Face IT Troubleshooting": 10500,
+      "Open Repair Alliance (ORDS)": 7171
+    }
+  },
+  "models": {
+    "Naive Bayes (MultinomialNB)": {
+      "accuracy": 93.66,
+      "top3_accuracy": 98.84,
+      "macro_precision": 93.88,
+      "macro_recall": 82.87,
+      "macro_f1": 84.59,
+      "weighted_f1": 93.14,
+      "latency_ms": 0.0,
+      "train_time_sec": 0.008,
+      "per_class": {
+        "Nguồn": {
+          "precision": 87.39,
+          "recall": 95.41,
+          "f1_score": 91.22,
+          "support": 414
+        },
+        "Màn hình": {
+          "precision": 89.74,
+          "recall": 98.15,
+          "f1_score": 93.76,
+          "support": 704
+        },
+        "Quá nhiệt": {
+          "precision": 100.0,
+          "recall": 84.06,
+          "f1_score": 91.34,
+          "support": 69
+        },
+        "Ổ cứng": {
+          "precision": 90.07,
+          "recall": 93.56,
+          "f1_score": 91.78,
+          "support": 388
+        },
+        "RAM": {
+          "precision": 93.33,
+          "recall": 18.18,
+          "f1_score": 30.43,
+          "support": 77
+        },
+        "Mạng": {
+          "precision": 99.71,
+          "recall": 95.81,
+          "f1_score": 97.72,
+          "support": 358
+        },
+        "Phần mềm": {
+          "precision": 96.92,
+          "recall": 94.89,
+          "f1_score": 95.89,
+          "support": 1525
+        }
+      },
+      "confusion_matrix": [
+        [
+          395,
+          15,
+          0,
+          3,
+          0,
+          0,
+          1
+        ],
+        [
+          9,
+          691,
+          0,
+          0,
+          0,
+          0,
+          4
+        ],
+        [
+          10,
+          0,
+          58,
+          1,
+          0,
+          0,
+          0
+        ],
+        [
+          11,
+          11,
+          0,
+          363,
+          0,
+          0,
+          3
+        ],
+        [
+          7,
+          10,
+          0,
+          10,
+          14,
+          0,
+          36
+        ],
+        [
+          4,
+          9,
+          0,
+          0,
+          0,
+          343,
+          2
+        ],
+        [
+          16,
+          34,
+          0,
+          26,
+          1,
+          1,
+          1447
+        ]
+      ]
+    },
+    "Naive Bayes (BernoulliNB)": {
+      "accuracy": 92.36,
+      "top3_accuracy": 97.91,
+      "macro_precision": 86.03,
+      "macro_recall": 84.85,
+      "macro_f1": 85.14,
+      "weighted_f1": 92.5,
+      "latency_ms": 0.001,
+      "train_time_sec": 0.008,
+      "per_class": {
+        "Nguồn": {
+          "precision": 86.13,
+          "recall": 93.0,
+          "f1_score": 89.43,
+          "support": 414
+        },
+        "Màn hình": {
+          "precision": 88.45,
+          "recall": 97.87,
+          "f1_score": 92.92,
+          "support": 704
+        },
+        "Quá nhiệt": {
+          "precision": 100.0,
+          "recall": 78.26,
+          "f1_score": 87.8,
+          "support": 69
+        },
+        "Ổ cứng": {
+          "precision": 88.25,
+          "recall": 90.98,
+          "f1_score": 89.59,
+          "support": 388
+        },
+        "RAM": {
+          "precision": 40.91,
+          "recall": 46.75,
+          "f1_score": 43.64,
+          "support": 77
+        },
+        "Mạng": {
+          "precision": 99.71,
+          "recall": 94.69,
+          "f1_score": 97.13,
+          "support": 358
+        },
+        "Phần mềm": {
+          "precision": 98.74,
+          "recall": 92.39,
+          "f1_score": 95.46,
+          "support": 1525
+        }
+      },
+      "confusion_matrix": [
+        [
+          385,
+          21,
+          0,
+          4,
+          4,
+          0,
+          0
+        ],
+        [
+          11,
+          689,
+          0,
+          0,
+          3,
+          0,
+          1
+        ],
+        [
+          12,
+          0,
+          54,
+          0,
+          1,
+          0,
+          2
+        ],
+        [
+          10,
+          12,
+          0,
+          353,
+          9,
+          0,
+          4
+        ],
+        [
+          5,
+          15,
+          0,
+          12,
+          36,
+          0,
+          9
+        ],
+        [
+          4,
+          9,
+          0,
+          0,
+          4,
+          339,
+          2
+        ],
+        [
+          20,
+          33,
+          0,
+          31,
+          31,
+          1,
+          1409
+        ]
+      ]
+    },
+    "Decision Tree": {
+      "accuracy": 97.51,
+      "top3_accuracy": 98.9,
+      "macro_precision": 94.36,
+      "macro_recall": 96.09,
+      "macro_f1": 95.05,
+      "weighted_f1": 97.57,
+      "latency_ms": 0.001,
+      "train_time_sec": 0.405,
+      "per_class": {
+        "Nguồn": {
+          "precision": 96.9,
+          "recall": 98.07,
+          "f1_score": 97.48,
+          "support": 414
+        },
+        "Màn hình": {
+          "precision": 99.28,
+          "recall": 98.3,
+          "f1_score": 98.79,
+          "support": 704
+        },
+        "Quá nhiệt": {
+          "precision": 100.0,
+          "recall": 95.65,
+          "f1_score": 97.78,
+          "support": 69
+        },
+        "Ổ cứng": {
+          "precision": 98.17,
+          "recall": 96.65,
+          "f1_score": 97.4,
+          "support": 388
+        },
+        "RAM": {
+          "precision": 69.39,
+          "recall": 88.31,
+          "f1_score": 77.71,
+          "support": 77
+        },
+        "Mạng": {
+          "precision": 98.6,
+          "recall": 98.04,
+          "f1_score": 98.32,
+          "support": 358
+        },
+        "Phần mềm": {
+          "precision": 98.15,
+          "recall": 97.64,
+          "f1_score": 97.9,
+          "support": 1525
+        }
+      },
+      "confusion_matrix": [
+        [
+          406,
+          0,
+          0,
+          2,
+          2,
+          2,
+          2
+        ],
+        [
+          6,
+          692,
+          0,
+          0,
+          0,
+          1,
+          5
+        ],
+        [
+          2,
+          0,
+          66,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          1,
+          0,
+          375,
+          4,
+          0,
+          7
+        ],
+        [
+          1,
+          0,
+          0,
+          0,
+          68,
+          0,
+          8
+        ],
+        [
+          0,
+          2,
+          0,
+          0,
+          0,
+          351,
+          5
+        ],
+        [
+          3,
+          2,
+          0,
+          5,
+          24,
+          2,
+          1489
+        ]
+      ]
+    },
+    "KNN": {
+      "accuracy": 94.37,
+      "top3_accuracy": 98.84,
+      "macro_precision": 91.03,
+      "macro_recall": 88.2,
+      "macro_f1": 89.4,
+      "weighted_f1": 94.29,
+      "latency_ms": 0.497,
+      "train_time_sec": 0.008,
+      "per_class": {
+        "Nguồn": {
+          "precision": 91.01,
+          "recall": 95.41,
+          "f1_score": 93.16,
+          "support": 414
+        },
+        "Màn hình": {
+          "precision": 90.5,
+          "recall": 97.44,
+          "f1_score": 93.84,
+          "support": 704
+        },
+        "Quá nhiệt": {
+          "precision": 100.0,
+          "recall": 92.75,
+          "f1_score": 96.24,
+          "support": 69
+        },
+        "Ổ cứng": {
+          "precision": 94.47,
+          "recall": 92.53,
+          "f1_score": 93.49,
+          "support": 388
+        },
+        "RAM": {
+          "precision": 65.52,
+          "recall": 49.35,
+          "f1_score": 56.3,
+          "support": 77
+        },
+        "Mạng": {
+          "precision": 98.54,
+          "recall": 94.41,
+          "f1_score": 96.43,
+          "support": 358
+        },
+        "Phần mềm": {
+          "precision": 97.2,
+          "recall": 95.48,
+          "f1_score": 96.33,
+          "support": 1525
+        }
+      },
+      "confusion_matrix": [
+        [
+          395,
+          16,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          11,
+          686,
+          0,
+          2,
+          0,
+          0,
+          5
+        ],
+        [
+          4,
+          0,
+          64,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          6,
+          8,
+          0,
+          359,
+          4,
+          1,
+          10
+        ],
+        [
+          5,
+          9,
+          0,
+          7,
+          38,
+          0,
+          18
+        ],
+        [
+          2,
+          11,
+          0,
+          0,
+          0,
+          338,
+          7
+        ],
+        [
+          11,
+          28,
+          0,
+          12,
+          15,
+          3,
+          1456
+        ]
+      ]
+    },
+    "Logistic Regression": {
+      "accuracy": 96.83,
+      "top3_accuracy": 99.77,
+      "macro_precision": 95.5,
+      "macro_recall": 91.14,
+      "macro_f1": 93.08,
+      "weighted_f1": 96.75,
+      "latency_ms": 0.002,
+      "train_time_sec": 1.345,
+      "per_class": {
+        "Nguồn": {
+          "precision": 97.09,
+          "recall": 96.86,
+          "f1_score": 96.98,
+          "support": 414
+        },
+        "Màn hình": {
+          "precision": 96.53,
+          "recall": 98.86,
+          "f1_score": 97.68,
+          "support": 704
+        },
+        "Quá nhiệt": {
+          "precision": 100.0,
+          "recall": 91.3,
+          "f1_score": 95.45,
+          "support": 69
+        },
+        "Ổ cứng": {
+          "precision": 97.63,
+          "recall": 95.62,
+          "f1_score": 96.61,
+          "support": 388
+        },
+        "RAM": {
+          "precision": 81.03,
+          "recall": 61.04,
+          "f1_score": 69.63,
+          "support": 77
+        },
+        "Mạng": {
+          "precision": 99.71,
+          "recall": 95.81,
+          "f1_score": 97.72,
+          "support": 358
+        },
+        "Phần mềm": {
+          "precision": 96.53,
+          "recall": 98.49,
+          "f1_score": 97.5,
+          "support": 1525
+        }
+      },
+      "confusion_matrix": [
+        [
+          401,
+          9,
+          0,
+          1,
+          0,
+          0,
+          3
+        ],
+        [
+          4,
+          696,
+          0,
+          0,
+          0,
+          0,
+          4
+        ],
+        [
+          2,
+          0,
+          63,
+          0,
+          0,
+          0,
+          4
+        ],
+        [
+          3,
+          3,
+          0,
+          371,
+          0,
+          0,
+          11
+        ],
+        [
+          1,
+          1,
+          0,
+          3,
+          47,
+          0,
+          25
+        ],
+        [
+          1,
+          7,
+          0,
+          0,
+          0,
+          343,
+          7
+        ],
+        [
+          1,
+          5,
+          0,
+          5,
+          11,
+          1,
+          1502
+        ]
+      ]
+    }
+  },
+  "learning_curve": {
+    "sample_sizes": [
+      500,
+      1000,
+      2000,
+      5000,
+      10000,
+      14136
+    ],
+    "nb_accuracies": [
+      92.48,
+      92.9,
+      93.49,
+      93.61,
+      93.47,
+      93.66
+    ]
+  }
+}
